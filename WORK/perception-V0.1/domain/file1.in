@@ -1,0 +1,17 @@
+
+:basic_info
+{
+	ID(blockA),
+}
+
+:current
+{
+	position(place_1_1)
+}
+
+:objective-0
+{
+	position(place_1_3)
+}
+
+

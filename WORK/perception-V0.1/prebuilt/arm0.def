@@ -1,0 +1,17 @@
+
+:basic_info
+{
+	ID(arm0)
+}
+
+:current
+{
+	position(place_1_4)
+}
+
+:objective-0
+{
+	position(place_3_4)
+}
+
+

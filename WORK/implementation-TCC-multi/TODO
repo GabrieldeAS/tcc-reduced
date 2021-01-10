@@ -1,0 +1,5 @@
+# Currently the code supports only:
+	- A very structured way defining the input files
+	- Only the objective position
+	- Only one objective per file
+#

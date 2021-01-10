@@ -1,0 +1,85 @@
+XML serve, mas não é a melhor notação.
+
+-----------------
+Estudos:
+
+1 - Estudar sintaxe e notação de PDDL, Predicados lógicos, linguagens de formatação de dados(JSON,XML) e C (linguagem de construção do parser)
+2 - Conflitos de sintaxe, semântica, ou outra inconsistência? (remover) 
+3 - Ordem de processamento da árvore deve ser especificada? (Grafo de semântica abstrata)
+4 - A especificação resultante atende de forma genérica aos domínios de problemas? (quais requisitos PDDL serão suportados?)
+5 - Qual a melhor forma de construir um parser?
+6 - Qual a melhor forma de unir o parser ao conhecimento de domínio para gerar o problema PDDL?
+7 - Como combinar múltiplos arquivos para gerar um único problema (e com a PSS)?
+-----------------
+Função:
+
+Linguagem de formatação de dados especializada para embarcar predicados (EPDFL) - Embedded Predicates Data Formatting Language
+*Refatoramento de um arquivo com dados em notação EPDFL para PDDL - na forma de programação data-driven
+-----------------
+Características:
+
+Auto descritiva
+Suporte a aninhamento
+Suporte a uso de caracteres reservados (como literais) no texto usando \
+Uso obrigatório de delimitadores de escopo de argumentos {} e (). Depois de um marcador e de um predicado, respectivamente.
+espaços em branco são interpretados como literais (levemente perigoso)
+tabs não são processados
+
+talvez -
+
+(Suporte a caracteres fora do padrão ASCII?)
+(Suporte a aninhamento de marcadores?) 
+(o texto interior a marcadores não tem privilégio de literal (uniformidade)?)
+
+
+-----------------
+Construção:
+
+// Caracteres reservados genéricos (em dúvida entre <> e : (como em PDDL) e em usar ; e /n como separadores adicionais)
+
+<>  	-> Marcador 				-> notação html-like simplificada 	#escopo de título bem definido
+{} 	-> Escopo de marcador/comentário	-> notação C-like     			#suporta aninhamento
+()	-> Lista de argumentos de predicado	-> notação C-like     			#suporta aninhamento
+[]	-> Vetor				-> notação C-like     			#suporte a múltiplas dimensões
+, 	-> Separador geral			-> notação C-like simplificada  	#legibilidade
+#	-> Comentário				-> notação shell-like 			#funcionalidade
+\	-> Atribuição de literal		-> notação shell-like 			#funcionalidade
+
+// Objetos lógicos (usados no escopo de marcadores e argumentos)
+
+&	-> AND lógico					-> notação C-like simplificada    #legibilidade
+|	-> OR lógico					-> notação C-like simplificada    #legibilidade
+!	-> Negação explícita (alcançar a exclusão)	-> notação C-like     		  #legibilidade
+-> todas as outras expressões de junção lógica são derivadas (XOR,NAND,etc)
+Exemplo: XOR = OR - AND = (A|B & !(A&B))
+
+// Simplest Tokens
+
+<>  	-> Marcador 				-> notação html-like simplificada 	#escopo de título bem definido
+{} 	-> Escopo de marcador/comentário	-> notação C-like     			#sem suporte a aninhamento
+()	-> Lista de argumentos de predicado	-> notação C-like     			#sem suporte a aninhamento
+, 	-> Separador geral			-> notação C-like simplificada  	#legibilidad
+_	-> Substituição lógica por ' ' 		-> notação snake case
+
+-----------------
+Exemplo de arquivo (com aninhamento de marcadores):
+
+<identidade> 
+{
+	u()
+},
+<estado objetivo\![3]> 
+{
+	m(l),
+	!d(z,k)
+	
+},
+# esse é um exemplo
+<atributos> 
+{
+	<forma> {n(ç)},
+	f(q,w,e) & g(q,w,i),
+	<posicao[0][5]> {a(x,y,z),b(z,k)}
+},
+
+

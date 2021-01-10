@@ -1,0 +1,12 @@
+#-- PSS --> Pegar números das linhas para inclusão
+#filtro de declaração: (le de retorno[0]+1 até retorno[1]-1)
+
+cat PSS.def | grep -ne "(:objects" -ne ")" -m 2 | cut -d ':' -f 1
+
+#filtro de init: (le de retorno[0]+1 até retorno[1]-1)
+
+cat PSS.def | grep -ne "(:init" | cut -d ":" -f 1
+
+wc PSS.def -l | cut -d " " -f 1
+
+

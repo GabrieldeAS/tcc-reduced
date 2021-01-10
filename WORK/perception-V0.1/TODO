@@ -1,0 +1,4 @@
+# Currently the code supports only:
+	- A very structured way of defining the input files
+	- Only the position predicate is treated as objective
+	- Only one objective per file
